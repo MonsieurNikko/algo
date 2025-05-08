@@ -31,7 +31,7 @@ graphe = {
 }
 
 arbre_bfs = bfs(graphe, 'A')
-print(arbre_bfs) # résultat attendu : [('A', 'B'), ('A', 'C'), ('B', 'D'), ('C', 'E')]
+print("BFS graphe orienté : ", arbre_bfs) # résultat attendu : [('A', 'B'), ('A', 'C'), ('B', 'D'), ('C', 'E')]
 
 # BFS graphe orienté
 graphe_oriente = {
@@ -42,7 +42,7 @@ graphe_oriente = {
     'E': []
 }
 arbre_bfs_oriente = bfs(graphe_oriente, 'A')
-print(arbre_bfs_oriente) # résultat attendu : [('A', 'B'), ('A', 'C'), ('B', 'D'), ('C', 'E')]
+print("BFS graphe orienté : ", arbre_bfs_oriente) # résultat attendu : [('A', 'B'), ('A', 'C'), ('B', 'D'), ('C', 'E')]
 
 
 #===============================================================================================================================#
@@ -99,7 +99,7 @@ graphe_oriente = {
     'E': []
 }
 arbre_dfs = dfs(graphe_oriente, 'A')
-print(arbre_dfs) # résultat attendu : [('A', 'B'), ('B', 'D'), ('A', 'C'), ('C', 'E')]
+print("DFS graphe orienté : ", arbre_dfs) # résultat attendu : [('A', 'B'), ('B', 'D'), ('A', 'C'), ('C', 'E')]
 
 # DFS graphe orienté avec appel récursif
 graphe_oriente = {
@@ -110,7 +110,7 @@ graphe_oriente = {
     'E': []
 }
 arbre_dfs_recursive = dfs_recursive(graphe_oriente, 'A')
-print(arbre_dfs_recursive) # résultat attendu : [('A', 'B'), ('B', 'D'), ('A', 'C'), ('C', 'E')]
+print("DFS graphe orienté avec appel récursif : ", arbre_dfs_recursive) # résultat attendu : [('A', 'B'), ('B', 'D'), ('A', 'C'), ('C', 'E')]
 
 
 # DFS graphe non orienté
@@ -122,7 +122,7 @@ graphe_non_oriente = {
     'E': ['C']
 }
 arbre_dfs_non_oriente = dfs(graphe_non_oriente, 'A')
-print(arbre_dfs_non_oriente) # résultat attendu : [('A', 'B'), ('B', 'D'), ('A', 'C'), ('C', 'E')]
+print("DFS graphe non orienté : ", arbre_dfs_non_oriente) # résultat attendu : [('A', 'B'), ('B', 'D'), ('A', 'C'), ('C', 'E')]
 
 # DFS graphe non orienté avec appel récursif
 graphe_non_oriente = {
@@ -133,4 +133,4 @@ graphe_non_oriente = {
     'E': ['C']
 }
 arbre_dfs_recursive_non_oriente = dfs_recursive(graphe_non_oriente, 'A')
-print(arbre_dfs_recursive_non_oriente) # résultat attendu : [('A', 'B'), ('B', 'D'), ('A', 'C'), ('C', 'E')]
+print("DFS graphe non orienté avec appel récursif : ", arbre_dfs_recursive_non_oriente) # résultat attendu : [('A', 'B'), ('B', 'D'), ('A', 'C'), ('C', 'E')]
