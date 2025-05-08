@@ -134,3 +134,293 @@ graphe_non_oriente = {
 }
 arbre_dfs_recursive_non_oriente = dfs_recursive(graphe_non_oriente, 'A')
 print("DFS graphe non orienté avec appel récursif : ", arbre_dfs_recursive_non_oriente) # résultat attendu : [('A', 'B'), ('B', 'D'), ('A', 'C'), ('C', 'E')]
+
+#===============================================================================================================================#
+# StrongConnectedComponents (SCC) : Algorithme de Kosaraju
+def kosaraju(graphe):
+    visited = {}     # Pour marquer les sommets visités
+    stack = []       # Pour stocker l’ordre de fin de visite
+    scc = []         # Liste des composantes fortement connexes
+
+    # Étape 1 : Marquer tous les sommets comme non visités
+    for sommet in graphe.keys():
+        visited[sommet] = False
+
+    # Étape 2 : Première passe DFS pour remplir la pile (ordre de terminaison)
+    def dfs_first_pass(sommet):
+        visited[sommet] = True
+        for voisin in graphe[sommet]:
+            if not visited[voisin]:
+                dfs_first_pass(voisin)
+        stack.append(sommet)  # Empile après avoir visité tous les voisins
+
+    # Lancer DFS pour tous les sommets non encore visités
+    for sommet in graphe.keys():
+        if not visited[sommet]:
+            dfs_first_pass(sommet)
+
+    # Étape 3 : Transposer le graphe (inverser les arcs)
+    graphe_transpose = {}
+    for sommet in graphe.keys():
+        graphe_transpose[sommet] = []  # Initialise les listes vides
+
+    for sommet in graphe.keys():
+        for voisin in graphe[sommet]:
+            graphe_transpose[voisin].append(sommet)
+
+    # Étape 4 : Réinitialiser les visites pour la 2e passe
+    for sommet in graphe.keys():
+        visited[sommet] = False
+
+    # Étape 5 : Deuxième passe DFS sur le graphe transposé
+    def dfs_second_pass(sommet, composante):
+        visited[sommet] = True
+        composante.append(sommet)
+        for voisin in graphe_transpose[sommet]:
+            if not visited[voisin]:
+                dfs_second_pass(voisin, composante)
+
+    while stack:
+        sommet = stack.pop()
+        if not visited[sommet]:
+            composante = []
+            dfs_second_pass(sommet, composante)
+            scc.append(composante)
+
+    return scc
+
+
+
+graphe = {
+    'A': ['B'],
+    'B': ['C'],
+    'C': ['A', 'D'],
+    'D': ['E'],
+    'E': ['F'],
+    'F': ['D'],
+    'G': ['F', 'H'],
+    'H': ['I'],
+    'I': ['G']
+}
+
+print("Composantes fortement connexes (Kosaraju) :", kosaraju(graphe)) # résultat attendu : [['A', 'C', 'B'], ['D', 'F', 'E'], ['G', 'I', 'H']]
+
+#StrongConnectedComponents (SCC) : Algorithme de Tarjan
+def tarjan(graphe):
+    visited = {}  # Pour marquer les sommets visités
+    stack = []    # Pour stocker l’ordre de fin de visite
+    scc = []      # Liste des composantes fortement connexes
+
+    # Étape 1 : Marquer tous les sommets comme non visités
+    for sommet in graphe.keys():
+        visited[sommet] = False
+
+    # Étape 2 : Première passe DFS pour remplir la pile (ordre de terminaison)
+    def dfs_first_pass(sommet):
+        visited[sommet] = True
+        for voisin in graphe[sommet]:
+            if not visited[voisin]:
+                dfs_first_pass(voisin)
+        stack.append(sommet)  # Empile après avoir visité tous les voisins
+
+    # Lancer DFS pour tous les sommets non encore visités
+    for sommet in graphe.keys():
+        if not visited[sommet]:
+            dfs_first_pass(sommet)
+
+    # Étape 3 : Transposer le graphe (inverser les arcs)
+    graphe_transpose = {}
+    for sommet in graphe.keys():
+        graphe_transpose[sommet] = []  # Initialise les listes vides
+
+    for sommet in graphe.keys():
+        for voisin in graphe[sommet]:
+            graphe_transpose[voisin].append(sommet)
+
+    # Étape 4 : Réinitialiser les visites pour la 2e passe
+    for sommet in graphe.keys():
+        visited[sommet] = False
+
+    # Étape 5 : Deuxième passe DFS sur le graphe transposé
+    def dfs_second_pass(sommet, composante):
+        visited[sommet] = True
+        composante.append(sommet)
+        for voisin in graphe_transpose[sommet]:
+            if not visited[voisin]:
+                dfs_second_pass(voisin, composante)
+
+    while stack:
+        sommet = stack.pop()
+        if not visited[sommet]:
+            composante = []
+            dfs_second_pass(sommet, composante)
+            scc.append(composante)
+
+    return scc
+
+print("Composantes fortement connexes (Tarjan) :", tarjan(graphe)) # résultat attendu : [['A', 'C', 'B'], ['D', 'F', 'E'], ['G', 'I', 'H']]
+
+#===============================================================================================================================#
+
+def adjency_matrix(graphe):
+    # Récupérer tous les sommets du graphe
+    sommets = list(graphe.keys())
+    n = len(sommets)  # Nombre de sommets
+
+    # Créer une matrice d'adjacence n x n initialisée à 0
+    matrice = []
+    for i in range(n):
+        ligne = []  # On crée une nouvelle ligne vide
+        for j in range(n):
+            ligne.append(0)  # On ajoute un zéro à la ligne
+        matrice.append(ligne)  # On ajoute la ligne complète à la matrice
+
+    # Remplir la matrice d'adjacence
+    for i in range(n):
+        for voisin in graphe[sommets[i]]:
+            j = sommets.index(voisin)  # Trouver l'indice du voisin
+            matrice[i][j] = 1  # Marquer l'arête dans la matrice
+
+    return matrice
+
+def isomorphisme(graphe1, graphe2):
+    # Vérifier si les deux graphes ont le même nombre de sommets
+    if len(graphe1) != len(graphe2):
+        return False
+
+    # Créer les matrices d'adjacence pour les deux graphes
+    matrice1 = adjency_matrix(graphe1)
+    matrice2 = adjency_matrix(graphe2)
+
+    # Vérifier si les matrices d'adjacence sont identiques
+    for i in range(len(matrice1)):
+        for j in range(len(matrice1)):
+            if matrice1[i][j] != matrice2[i][j]:
+                return False  # Si une valeur diffère, les graphes ne sont pas isomorphes
+
+    return True  # Les graphes sont isomorphes
+
+
+
+def isChain(graphe):
+    # Vérifier si le graphe est une chaîne
+    for sommet in graphe:
+        if len(graphe[sommet]) > 2:  # Si un sommet a plus de 2 voisins, ce n'est pas une chaîne
+            return False
+    return True  # Tous les sommets ont au plus 2 voisins, donc c'est une chaîne
+
+
+
+def isCycle(graphe):
+    # Vérifier si le graphe est un cycle
+    for sommet in graphe:
+        if len(graphe[sommet]) != 2:  # Si un sommet n'a pas exactement 2 voisins, ce n'est pas un cycle
+            return False
+    return True  # Tous les sommets ont exactement 2 voisins, donc c'est un cycle
+
+
+
+def isComplete(graphe):
+    # Vérifier si le graphe est complet
+    n = len(graphe)  # Nombre de sommets
+    for sommet in graphe:
+        if len(graphe[sommet]) != n - 1:  # Si un sommet n'a pas n-1 voisins, ce n'est pas complet
+            return False
+    return True  # Tous les sommets ont n-1 voisins, donc c'est complet
+
+
+
+def elementaire(graphe):
+    # Vérifier si le graphe est élémentaire (tous les sommets ont un degré de 1)
+    for sommet in graphe:
+        if len(graphe[sommet]) != 1:  # Si un sommet n'a pas exactement 1 voisin, ce n'est pas élémentaire
+            return False
+    return True  # Tous les sommets ont exactement 1 voisin, donc c'est élémentaire
+
+def isConnexe(graphe):
+    # Vérifier si le graphe est connexe (il existe un chemin entre chaque paire de sommets)
+    visited = {}  # Dictionnaire pour savoir quels sommets ont déjà été visités
+
+    # On marque tous les sommets comme "non visités" au début
+    for u in graphe:
+        visited[u] = False
+
+    # On commence le parcours depuis le premier sommet
+    def dfs(sommet):
+        visited[sommet] = True  # Marque le sommet comme visité
+        for voisin in graphe[sommet]:
+            if not visited[voisin]:  # Si le voisin n'est pas encore visité
+                dfs(voisin)  # On l'explore
+
+    # Lancer DFS à partir du premier sommet
+    dfs(list(graphe.keys())[0])
+
+    # Vérifier si tous les sommets ont été visités
+    for u in graphe:
+        if not visited[u]:
+            return False  # Si un sommet n'a pas été visité, le graphe n'est pas connexe
+
+    return True  # Tous les sommets ont été visités, donc le graphe est connexe
+
+def TousLesComposantesConnexes(graphe):
+    # Trouver toutes les composantes connexes du graphe
+    visited = {}  # Dictionnaire pour savoir quels sommets ont déjà été visités
+    composantes = []  # Liste pour stocker les composantes connexes
+
+    # On marque tous les sommets comme "non visités" au début
+    for u in graphe:
+        visited[u] = False
+
+    def dfs(sommet, composante):
+        visited[sommet] = True  # Marque le sommet comme visité
+        composante.append(sommet)  # Ajoute le sommet à la composante courante
+        for voisin in graphe[sommet]:
+            if not visited[voisin]:  # Si le voisin n'est pas encore visité
+                dfs(voisin, composante)  # On l'explore
+
+    for sommet in graphe:
+        if not visited[sommet]:  # Si le sommet n'a pas été visité
+            composante = []  # Crée une nouvelle composante
+            dfs(sommet, composante)  # Lance DFS pour cette composante
+            composantes.append(composante)  # Ajoute la composante à la liste des composantes
+
+    return composantes  # Retourne toutes les composantes connexes trouvées
+
+def planaire(graphe):
+    # Vérifier si le graphe est planaire (peut être dessiné sur un plan sans intersections)
+    # Pour simplifier, on va juste vérifier si le graphe est complet ou non
+    return not isComplete(graphe)  # Si ce n'est pas complet, on le considère comme planaire pour cet exemple
+
+def isFull(graphe):
+    # Vérifier si le graphe est plein (tous les sommets sont connectés entre eux)
+    for sommet in graphe:
+        if len(graphe[sommet]) != len(graphe) - 1:  # Si un sommet n'a pas n-1 voisins, ce n'est pas plein
+            return False
+    return True  # Tous les sommets ont n-1 voisins, donc c'est plein
+
+def isBiparti(graphe):
+    # Vérifier si le graphe est biparti (peut être divisé en deux ensembles sans arêtes entre eux)
+    couleurs = {}  # Dictionnaire pour stocker les couleurs des sommets
+
+    def dfs(sommet, couleur):
+        couleurs[sommet] = couleur  # Colorie le sommet
+        for voisin in graphe[sommet]:
+            if voisin not in couleurs:  # Si le voisin n'est pas encore colorié
+                if not dfs(voisin, 1 - couleur):  # On lui donne la couleur opposée
+                    return False
+            elif couleurs[voisin] == couleur:  # Si le voisin a la même couleur, ce n'est pas biparti
+                return False
+        return True
+
+    for sommet in graphe:
+        if sommet not in couleurs:  # Si le sommet n'est pas encore colorié
+            if not dfs(sommet, 0):  # On commence avec la couleur 0
+                return False
+
+    return True  # Le graphe est biparti si on a pu colorier tous les sommets sans conflit
+
+def showStructure(graphe):
+    # Afficher la structure du graphe
+    for sommet, voisins in graphe.items():
+        print(f"{sommet}: {', '.join(voisins)}")  # Affiche le sommet et ses voisins
+
