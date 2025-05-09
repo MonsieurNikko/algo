@@ -21,7 +21,7 @@ def bfs(graphe, sommet):
 
     return T  # On retourne la liste des arêtes parcourues
 
-# Exemple d'utilisation de la fonction bfs
+# Exemple d'utilisation de la fonction bfs avec un graphe orienté
 graphe = {
     'A': ['B', 'C'],
     'B': ['A', 'D'],
@@ -31,7 +31,7 @@ graphe = {
 }
 
 arbre_bfs = bfs(graphe, 'A')
-print(arbre_bfs) # résultat attendu : [('A', 'B'), ('A', 'C'), ('B', 'D'), ('C', 'E')]
+print("BFS graphe orienté : ", arbre_bfs) # résultat attendu : [('A', 'B'), ('A', 'C'), ('B', 'D'), ('C', 'E')]
 
 # BFS graphe orienté
 graphe_oriente = {
