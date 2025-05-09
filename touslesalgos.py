@@ -136,6 +136,13 @@ arbre_dfs_recursive_non_oriente = dfs_recursive(graphe_non_oriente, 'A')
 print("DFS graphe non orienté avec appel récursif : ", arbre_dfs_recursive_non_oriente) # résultat attendu : [('A', 'B'), ('B', 'D'), ('A', 'C'), ('C', 'E')]
 
 #===============================================================================================================================#
+"""SCC (Strongly Connected Components) : Un graphe orienté est fortement connexe si chaque sommet est accessible à partir de n'importe quel autre sommet.
+   Les composantes fortement connexes sont des sous-graphes maximaux où chaque sommet est accessible à partir de n'importe quel autre sommet dans le même sous-graphe.
+   Par exemple, dans un graphe orienté, si on peut aller de A à B et de B à A, alors A et B font partie de la même composante fortement connexe."""
+
+
+"""kosaraju est un algorithme qui trouve les composantes fortement connexes d'un graphe orienté.
+   Il fonctionne en deux passes DFS : la première passe remplit une pile avec l'ordre de terminaison des sommets, et la seconde passe explore le graphe transposé pour identifier les SCC."""
 # StrongConnectedComponents (SCC) : Algorithme de Kosaraju
 def kosaraju(graphe):
     visited = {}     # Pour marquer les sommets visités
@@ -205,6 +212,8 @@ graphe = {
 
 print("Composantes fortement connexes (Kosaraju) :", kosaraju(graphe)) # résultat attendu : [['A', 'C', 'B'], ['D', 'F', 'E'], ['G', 'I', 'H']]
 
+"""Tarjan est un algorithme de recherche en profondeur qui trouve les composantes fortement connexes d'un graphe orienté.
+   Il utilise une approche de parcours en profondeur (DFS) et maintient un suivi des sommets visités et de leur ordre de visite pour identifier les cycles."""
 #StrongConnectedComponents (SCC) : Algorithme de Tarjan
 def tarjan(graphe):
     visited = {}  # Pour marquer les sommets visités
