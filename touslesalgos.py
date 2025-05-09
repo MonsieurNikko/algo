@@ -262,6 +262,8 @@ print("Composantes fortement connexes (Tarjan) :", tarjan(graphe)) # résultat a
 
 #===============================================================================================================================#
 
+"""matrice d'adjacence est une représentation d'un graphe sous forme de tableau où chaque case (i, j) indique s'il y a une arête entre le sommet i et le sommet j.
+   Par exemple, si la case (i, j) contient 1, cela signifie qu'il y a une arête entre le sommet i et le sommet j. Si elle contient 0, il n'y a pas d'arête entre ces deux sommets."""
 def adjency_matrix(graphe):
     # Récupérer tous les sommets du graphe
     sommets = list(graphe.keys())
@@ -283,6 +285,8 @@ def adjency_matrix(graphe):
 
     return matrice
 
+"""Isomorphisme entre deux graphes : Deux graphes sont dits isomorphes s'ils ont la même structure, c'est-à-dire qu'il existe une correspondance entre leurs sommets et leurs arêtes.
+   En d'autres termes, on peut transformer l'un des graphes en l'autre en renommant ses sommets sans changer la structure des connexions entre eux."""
 def isomorphisme(graphe1, graphe2):
     # Vérifier si les deux graphes ont le même nombre de sommets
     if len(graphe1) != len(graphe2):
@@ -301,7 +305,7 @@ def isomorphisme(graphe1, graphe2):
     return True  # Les graphes sont isomorphes
 
 
-
+"""Chain : Un graphe est une chaîne si tous ses sommets ont au plus 2 voisins."""
 def isChain(graphe):
     # Vérifier si le graphe est une chaîne
     for sommet in graphe:
@@ -310,7 +314,7 @@ def isChain(graphe):
     return True  # Tous les sommets ont au plus 2 voisins, donc c'est une chaîne
 
 
-
+"""Cycle : Un graphe est un cycle si tous ses sommets ont exactement 2 voisins."""
 def isCycle(graphe):
     # Vérifier si le graphe est un cycle
     for sommet in graphe:
@@ -319,7 +323,7 @@ def isCycle(graphe):
     return True  # Tous les sommets ont exactement 2 voisins, donc c'est un cycle
 
 
-
+"""Complet : Un graphe est complet si chaque sommet est connecté à tous les autres sommets."""
 def isComplete(graphe):
     # Vérifier si le graphe est complet
     n = len(graphe)  # Nombre de sommets
@@ -329,7 +333,7 @@ def isComplete(graphe):
     return True  # Tous les sommets ont n-1 voisins, donc c'est complet
 
 
-
+"""Elementaire : Un graphe est élémentaire si tous ses sommets ont un degré de 1."""
 def elementaire(graphe):
     # Vérifier si le graphe est élémentaire (tous les sommets ont un degré de 1)
     for sommet in graphe:
@@ -337,6 +341,7 @@ def elementaire(graphe):
             return False
     return True  # Tous les sommets ont exactement 1 voisin, donc c'est élémentaire
 
+"""Connexe : Un graphe est connexe si tous ses sommets sont accessibles à partir de n'importe quel autre sommet."""
 def isConnexe(graphe):
     # Vérifier si le graphe est connexe (il existe un chemin entre chaque paire de sommets)
     visited = {}  # Dictionnaire pour savoir quels sommets ont déjà été visités
@@ -362,6 +367,8 @@ def isConnexe(graphe):
 
     return True  # Tous les sommets ont été visités, donc le graphe est connexe
 
+
+"""Composantes connexes : Un graphe est composé de plusieurs composantes connexes si on peut le diviser en sous-graphes où chaque sous-graphe est connexe."""
 def TousLesComposantesConnexes(graphe):
     # Trouver toutes les composantes connexes du graphe
     visited = {}  # Dictionnaire pour savoir quels sommets ont déjà été visités
@@ -386,11 +393,15 @@ def TousLesComposantesConnexes(graphe):
 
     return composantes  # Retourne toutes les composantes connexes trouvées
 
+
+"""Planaire : Un graphe est planaire s'il peut être dessiné sur un plan sans que ses arêtes se croisent."""
 def planaire(graphe):
     # Vérifier si le graphe est planaire (peut être dessiné sur un plan sans intersections)
     # Pour simplifier, on va juste vérifier si le graphe est complet ou non
     return not isComplete(graphe)  # Si ce n'est pas complet, on le considère comme planaire pour cet exemple
 
+
+"""Full : Un graphe est plein si chaque sommet est connecté à tous les autres sommets."""
 def isFull(graphe):
     # Vérifier si le graphe est plein (tous les sommets sont connectés entre eux)
     for sommet in graphe:
@@ -398,6 +409,8 @@ def isFull(graphe):
             return False
     return True  # Tous les sommets ont n-1 voisins, donc c'est plein
 
+
+"""Biparti : Un graphe est biparti s'il peut être colorié avec deux couleurs de manière à ce que deux sommets adjacents n'aient pas la même couleur."""
 def isBiparti(graphe):
     # Vérifier si le graphe est biparti (peut être divisé en deux ensembles sans arêtes entre eux)
     couleurs = {}  # Dictionnaire pour stocker les couleurs des sommets
@@ -419,6 +432,8 @@ def isBiparti(graphe):
 
     return True  # Le graphe est biparti si on a pu colorier tous les sommets sans conflit
 
+
+"""Structure : La structure d'un graphe est la manière dont ses sommets et arêtes sont organisés."""
 def showStructure(graphe):
     # Afficher la structure du graphe
     for sommet, voisins in graphe.items():
