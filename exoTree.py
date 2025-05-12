@@ -13,12 +13,12 @@ def union(parent, sommet, voisin):
 
 def kruskal(noeuds, aretes):
     parent = {}
-    
+
     for sommet in noeuds:
         parent[sommet] = sommet
-    
+
     aretes = sorted(aretes, key=lambda x: x[1])
-    
+
     mst = []
     for sommet,voisin,poids in aretes:
         if union(parent,sommet,voisin):
