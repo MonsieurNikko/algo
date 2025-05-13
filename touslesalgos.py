@@ -543,3 +543,28 @@ def kruskal(graphe):
             mst.append((u, v, poids))  # Ajoute l’arête à l’arbre couvrant
 
     return mst
+
+
+def welsh_powell(graphe):
+    # Étape 1 : Calculer le degré de chaque sommet
+    degres = {}
+    for sommet in graphe:
+        degres[sommet] = len(graphe[sommet])  # Le degré est le nombre de voisins
+
+    # Étape 2 : Trier les sommets par degré décroissant
+    sommets_tries = sorted(degres, key=degres.get, reverse=True)
+
+    # Étape 3 : Initialiser la coloration
+    couleurs = {}
+    couleur = 0
+
+    # Étape 4 : Colorier les sommets
+    for sommet in sommets_tries:
+        if sommet not in couleurs:
+            couleurs[sommet] = couleur
+            for voisin in graphe[sommet]:
+                if voisin not in couleurs:
+                    couleurs[voisin] = -1  # Marque le voisin comme non colorié
+            couleur += 1
+
+    return couleurs
