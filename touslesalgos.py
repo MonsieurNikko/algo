@@ -568,3 +568,29 @@ def welsh_powell(graphe):
             couleur += 1
 
     return couleurs
+
+def hierholzer(graphe):
+    # Vérifie si tous les sommets ont un degré pair
+    for sommet in graphe:
+        if len(graphe[sommet]) % 2 != 0:
+            raise ValueError("Tous les sommets doivent avoir un degré pair")
+
+    # Choisir un sommet de départ arbitraire
+    depart = next(iter(graphe))
+    chemin = [depart]
+    cycle = []
+
+    # Copie du graphe pour modification
+    graphe_temp = {sommet: voisins[:] for sommet, voisins in graphe.items()}
+
+    while chemin:
+        sommet_courant = chemin[-1]
+        if graphe_temp[sommet_courant]:
+            voisin = graphe_temp[sommet_courant].pop()
+            graphe_temp[voisin].remove(sommet_courant)  # Retire l’arête dans les deux sens
+            chemin.append(voisin)
+        else:
+            cycle.append(chemin.pop())
+
+    cycle.reverse()
+    return cycle
